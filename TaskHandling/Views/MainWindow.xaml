@@ -18,9 +18,29 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="150" />
             </Grid.RowDefinitions>
-            
             <StackPanel Grid.Row="0" 
                         Background="White">
+                <WrapPanel>
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
+                    Width="30" Height="20"
+                    Grid.Row="0" Background="White">
+                        <Image Source="../Assets/Icons/vecteezy_button-plus-icon-sign-symbol-design_9392103_823.png" />
+                    </Button>
+
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
+                    Width="30" Height="20"
+                    Grid.Row="0" Background="White">
+                        <Image Source="../Assets/Icons/Search free vector icons designed by Freepik.png" />
+                    </Button>
+
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
+                    Width="30" Height="20"
+                    Grid.Row="0"
+                            Background="White">
+                        <Image Source="/Assets/Icons/Remove free icons designed by Pixel perfect.png" />
+                    </Button>
+
+                </WrapPanel>
                 <TextBlock Text ="Categorie -> task" FontSize="15" Margin = "10"/>
                 <TextBlock Text ="Categorie -> task" FontSize="15" Margin = "10"/>
                 <TextBlock Text ="Categorie -> task" FontSize="15" Margin = "10"/>
@@ -28,21 +48,21 @@
                 <TextBlock Text ="Categorie -> task" FontSize="15" Margin = "10"/>
             </StackPanel>
 
-                <Grid x:Name="statsPanel" Background="LightYellow" Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="50" />
-                    </Grid.RowDefinitions>
-                    <WrapPanel Grid.Row="0">
-                        <Label Foreground="Orange" FontWeight ="Bold" Content="Tasks due today: 0" />
-                        <Label Foreground="Blue" FontWeight ="Bold" Content="Tasks due tomorrow: 0" />
-                        <Label Foreground="Red" FontWeight ="Bold" Content="Tasks overdue: 0" />
-                    </WrapPanel>
+            <Grid x:Name="statsPanel" Background="LightYellow" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <WrapPanel Grid.Row="0">
+                    <Label Foreground="Orange" FontWeight ="Bold" Content="Tasks due today: 0" />
+                    <Label Foreground="Blue" FontWeight ="Bold" Content="Tasks due tomorrow: 0" />
+                    <Label Foreground="Red" FontWeight ="Bold" Content="Tasks overdue: 0" />
+                </WrapPanel>
                 <StackPanel x:Name="tasksDone" Grid.Row ="1">
-                        <Label Foreground="Green" FontWeight ="Bold" Content="Tasks done: 0"/>
-                        <Label Foreground="Green" FontWeight ="Bold" Content="Tasks to be done: 0"/>
-                    </StackPanel>
-                </Grid>
+                    <Label Foreground="Green" FontWeight ="Bold" Content="Tasks done: 0"/>
+                    <Label Foreground="Green" FontWeight ="Bold" Content="Tasks to be done: 0"/>
+                </StackPanel>
+            </Grid>
         </Grid>
 
         <Grid Grid.Column="1" Background="LightGray">

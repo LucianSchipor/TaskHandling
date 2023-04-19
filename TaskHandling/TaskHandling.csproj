@@ -7,4 +7,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\Icons\Remove free icons designed by Pixel perfect.png" />
+    <None Remove="Assets\Icons\Search free vector icons designed by Freepik.png" />
+    <None Remove="Assets\Icons\vecteezy_button-plus-icon-sign-symbol-design_9392103_823.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icons\Remove free icons designed by Pixel perfect.png" />
+    <Resource Include="Assets\Icons\Search free vector icons designed by Freepik.png" />
+    <Resource Include="Assets\Icons\vecteezy_button-plus-icon-sign-symbol-design_9392103_823.png" />
+  </ItemGroup>
+
 </Project>
