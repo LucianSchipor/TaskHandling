@@ -16,20 +16,20 @@ namespace TaskHandling.Services
         }
         public void AddTask(Task task)
         {
-            tdl.tasksColletion.Add(task);
+            tdl.TasksCollection.Add(task);
         }
         public void AddTDL()
         {
-            tdl.tdlCollection.Add(tdl);
+            tdl.TdlCollection.Add(tdl);
         }
 
         public void RemoveTask(Task task) { 
-            tdl.tasksColletion.Remove(task);
+            tdl.TasksCollection.Remove(task);
         }
 
         public void RemoveTDL(TDL tDL)
         {
-            tdl.tdlCollection.Remove(tDL);
+            tdl.TdlCollection.Remove(tDL);
         }
 
     }

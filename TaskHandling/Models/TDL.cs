@@ -1,24 +1,88 @@
 ﻿using System.Collections.ObjectModel;
-
+using System.ComponentModel;
 
 namespace TaskHandling.Models
 {
-    class TDL
+    class TDL : INotifyPropertyChanged
     {
-        public TDL()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName)
         {
-            this.Name = "New TDL";
-            this.image = "../Assets/TDLIcons/sport";
-            tdlCollection = new ObservableCollection<TDL>();
-            tasksColletion = new ObservableCollection<Task>();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public string Name { get; set; }
+        public TDL()
+        {
+            this._name = "New TDL";
+            this._image = "../Assets/TDLIcons/sport";
+            _tdlCollection = new ObservableCollection<TDL>();
+            _tasksColletion = new ObservableCollection<Task>();
+        }
 
-        public string image { get; set; }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (this._name != value)
+                {
+                    _name = value;
+                    NotifyPropertyChanged("Name");
+                }
+            }
+        }
 
-        public ObservableCollection<TDL> tdlCollection { get; set; }
-        public ObservableCollection<Task> tasksColletion { get; set; }
+        private string _image;
+        public string Image
+        {
+            get { return _image; }
+            set
+            {
+                if (this._image != value)
+                {
+                    _image = value;
+                    NotifyPropertyChanged("Image");
+                }
+            }
+        }
 
+
+        private ObservableCollection<TDL> _tdlCollection;
+        public ObservableCollection<TDL> TdlCollection
+        {
+            get
+            {
+                return _tdlCollection;
+            }
+            set
+            {
+                if (this._tdlCollection != value)
+                {
+
+                    _tdlCollection = value;
+                    NotifyPropertyChanged("TdlCollection");
+                }
+            }
+        }
+
+        private ObservableCollection<Task> _tasksColletion;
+        public ObservableCollection<Task> TasksCollection
+        {
+            get
+            {
+                return _tasksColletion;
+            }
+            set
+            {
+                if (value != _tasksColletion)
+                {
+
+                    _tasksColletion = value;
+                    NotifyPropertyChanged("TasksCollection");
+                }
+            }
+        }
     }
 }

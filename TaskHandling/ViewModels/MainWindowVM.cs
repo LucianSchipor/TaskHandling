@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TaskHandling.Models;
 
 namespace TaskHandling.ViewModels
@@ -17,6 +16,9 @@ namespace TaskHandling.ViewModels
             tdlList.Add(new TDL() { Name = "scoala" });
             tdlList.Add(new TDL() { Name = "masini" });
             tdlList.Add(new TDL() { Name = "sula" });
+            tdlList[0].TasksCollection.Add(new Task() { taskName = "Du-te la scoala", taskDescription = "mai repede" });
+            tdlList[0].TdlCollection.Add(new TDL() { Name = "hei prieteni", Image = "../Assets/TDLIcons/School" });
+            tdlList[0].TdlCollection[0].TdlCollection.Add(new TDL() { Name = "ai reusit" });
         }   
     }
 }

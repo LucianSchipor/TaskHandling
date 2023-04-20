@@ -26,55 +26,47 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" 
                         Background="White">
+
                 <WrapPanel>
                     <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
                     Width="30" Height="20"
                     Grid.Row="0" Background="White">
                         <Image Source="../Assets/ButtonIcons/vecteezy_button-plus-icon-sign-symbol-design_9392103_823.png" />
                     </Button>
-
                     <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
                     Width="30" Height="20"
                     Grid.Row="0" Background="White">
                         <Image Source="../Assets/ButtonIcons/Search free vector icons designed by Freepik.png" />
                     </Button>
-
                     <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
                     Width="30" Height="20"
                     Grid.Row="0" Background="White">
                         <Image Source="/Assets/ButtonIcons/UP.png" />
                     </Button>
-
                     <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
                     Width="30" Height="20"
                     Grid.Row="0" Background="White">
                         <Image Source="/Assets/ButtonIcons/DOWN.png" />
                     </Button>
-
                     <Button VerticalAlignment="Top" Margin ="50,0,0,0"  HorizontalAlignment="Right" 
                     Width="30" Height="20"
                     Grid.Row="0"
                             Background="White">
                         <Image Source="/Assets/ButtonIcons/Remove free icons designed by Pixel perfect.png" />
                     </Button>
-
-
                 </WrapPanel>
-                <ListBox x:Name="listboxTDL" ItemsSource="{Binding tdlList}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <WrapPanel>
-                                    <Image Source="{Binding image}" MaxHeight="35" MaxWidth="100"/>
-                                    <TextBlock FontSize="15" Margin ="5,0,0,0" Text="{Binding Name}" />
-                                </WrapPanel>
-                                <ComboBox ItemsSource ="{Binding tdlCollection}" Text ="{Binding Name}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
 
+                <TreeView ItemsSource="{Binding tdlList}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding TdlCollection}">
+                            <WrapPanel>
+                                <Image Source="../Assets/TDLIcons/sport" MaxHeight="20" />
+                                <TextBlock Text="{Binding Name}" Margin="5" FontSize="15"/>
+                            </WrapPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </StackPanel>
             <Grid x:Name="statsPanel" Background="LightYellow" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
