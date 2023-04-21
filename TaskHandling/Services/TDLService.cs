@@ -18,9 +18,9 @@ namespace TaskHandling.Services
         {
             tdl.TasksCollection.Add(task);
         }
-        public void AddTDL()
+        public void AddTDL(TDL newTDL)
         {
-            tdl.TdlCollection.Add(tdl);
+            tdl.TdlCollection.Add(newTDL);
         }
 
         public void RemoveTask(Task task) { 

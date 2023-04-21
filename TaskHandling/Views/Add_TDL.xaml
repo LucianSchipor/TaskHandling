@@ -1,0 +1,59 @@
+﻿<Window x:Class="TaskHandling.Views.Add_TDL"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskHandling.Views"
+        xmlns:ctx="clr-namespace:TaskHandling.ViewModels"
+        mc:Ignorable="d"
+        Title="Add_TDL" Height="450" Width="800">
+    
+    <Window.DataContext>
+        <ctx:Add_TDLVM />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Margin="10" Grid.Row="0">
+            <Image Source="../Assets/ButtonIcons/vecteezy_button-plus-icon-sign-symbol-design_9392103_823.png" HorizontalAlignment="Left" 
+                   MaxHeight="150" Margin="0,0,20,0"/>
+            <WrapPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Add To Do List" 
+                           FontSize="40" Foreground="Black"/>
+                <TextBlock Text="Add a to-do-list for better schedule" Foreground="Gray"/>
+            </WrapPanel>
+        </WrapPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <WrapPanel  Orientation="Vertical">
+                <WrapPanel HorizontalAlignment="Left" Margin="20,0,0,20" Orientation="Vertical">
+                    <Label Content="What are you planning to do?" FontSize="20" FontWeight="Bold"/>
+                    <Button Content="Choose To Do List Name" Command="{Binding SetNameCommand}"/>
+                </WrapPanel>
+                <WrapPanel Grid.Row="1" HorizontalAlignment="Left" Margin="20,0,0,0" Orientation="Vertical">
+                    <Label Content="Select a representative image" FontSize="20" FontWeight="Bold"/>
+                    <Button Height="20" Content="Browse" Command="{Binding BrowseCommand}"/>
+                </WrapPanel>
+                <WrapPanel HorizontalAlignment="Center" Margin="20,20,0,0" VerticalAlignment="Bottom">
+                    <Button Content="Add" Height="30" Width="80" HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding AddTDLCommand}" />
+                </WrapPanel>
+            </WrapPanel>
+            <WrapPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center">
+                <Label Content="Preview" HorizontalAlignment="Center" Grid.Column="1" FontSize="20"/>
+                <WrapPanel >
+                    <Image Source="{Binding IMGPath, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxHeight="100"/>
+                    <TextBlock Text="{Binding TDLName, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="5"/>
+                </WrapPanel>
+            </WrapPanel>
+           
+        </Grid>
+    </Grid>
+</Window>

@@ -37,7 +37,7 @@
                         </MenuItem>
 
                         <MenuItem Header="TDL"  Width = "40">
-                            <MenuItem Header="Add Root TDL"/>
+                            <MenuItem Header="Add Root TDL" Command="{Binding AddRootCommand}" />
                             <MenuItem Header="Add Sub-TDL"/>
                             <MenuItem Header="Edit"/>
                             <MenuItem Header="Delete"/>
@@ -134,7 +134,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-
+                        
                         <Label Content="Task Name" Grid.Column ="0"/>
                         <Label Content="Priority" Grid.Column ="1"/>
                         <Label Content="Type" Grid.Column ="2"/>

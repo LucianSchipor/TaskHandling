@@ -2,7 +2,7 @@
 
 namespace TaskHandling.Models
 {
-    class Task
+    public class Task
     {
         public Task()
         {
