@@ -12,13 +12,14 @@ using TaskHandling.Commands;
 using System.ComponentModel;
 using TaskHandling.Views;
 using TaskHandling.Services;
+using System.Collections.ObjectModel;
 
 namespace TaskHandling.ViewModels
 {
     public class Add_TDLVM : INotifyPropertyChanged
     {
-        public TDL tdl;
-        private TDLService tdlService;
+        TDLService _tdlService;
+        TDL _tdl;
 
         private string imgPath;
         public string IMGPath
@@ -47,11 +48,16 @@ namespace TaskHandling.ViewModels
             }
         }
 
+        public Add_TDLVM(TDL tdlList)
+        {
+            _tdl = tdlList;
+            _tdlService = new TDLService(_tdl);
+            //trebuie ca TDL sa nu fie initializat, ci sa ia context-ul dinainte
+        }
+
         public Add_TDLVM()
         {
-            tdl = new TDL();
-                //trebuie ca TDL sa nu fie initializat, ci sa ia context-ul dinainte
-            tdlService = new TDLService(tdl);
+            //pentru context pe XAML deoarece trebuie sa am si un constructor fara parametri
         }
 
         private void BrowseImage(object param)
@@ -63,11 +69,11 @@ namespace TaskHandling.ViewModels
             }
         }
 
-        
+
         private void SetName(object param)
         {
             var nameDialog = new InputDialog("Salut");
-            if(nameDialog.ShowDialog() == true)
+            if (nameDialog.ShowDialog() == true)
             {
                 TDLName = nameDialog.Answer;
             }
@@ -79,15 +85,14 @@ namespace TaskHandling.ViewModels
             newTDL.Name = TDLName;
             newTDL.Image = IMGPath;
 
-            if (newTDL.Name != null && newTDL.Image != null) 
+            if (newTDL.Name != null && newTDL.Image != null)
             {
-                tdlService.AddTDL(newTDL);
+                _tdlService.AddTDL(newTDL);
                 MessageBox.Show("To Do List" + TDLName + "a fost adaugat in lista!.");
-                tdl.NotifyPropertyChanged("TDLCollection");
             }
             else
             {
-                if(newTDL.Name == null)
+                if (newTDL.Name == null)
                 {
                     MessageBox.Show("Nu ai setat niciun nume.");
                 }
@@ -103,7 +108,7 @@ namespace TaskHandling.ViewModels
         {
             get
             {
-                if(browseCommand == null)
+                if (browseCommand == null)
                 {
                     browseCommand = new RelayCommand(BrowseImage);
                 }

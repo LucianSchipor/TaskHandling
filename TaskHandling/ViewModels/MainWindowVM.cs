@@ -14,21 +14,25 @@ namespace TaskHandling.ViewModels
 {
     public class MainWindowVM: INotifyPropertyChanged
     {
-        public ObservableCollection<TDL> tdlList { get; set; }
+        public TDL _tdl { get; set; }
+        public Add_TDLVM ADD_TDLVM { get; set; }
 
         public MainWindowVM() {
-            tdlList = new ObservableCollection<TDL>();
-            tdlList.Add(new TDL() { Name = "scoala" });
-            tdlList.Add(new TDL() { Name = "masini" });
-            tdlList.Add(new TDL() { Name = "sula" });
-            tdlList[0].TasksCollection.Add(new Task() { taskName = "Du-te la scoala", taskDescription = "mai repede" });
-            tdlList[0].TdlCollection.Add(new TDL() { Name = "hei prieteni", Image = "../Assets/TDLIcons/School" });
-            tdlList[0].TdlCollection[0].TdlCollection.Add(new TDL() { Name = "ai reusit" });
+            _tdl = new TDL();
+            _tdl.TdlCollection.Add(new TDL() { Name = "scoala" });
+            _tdl.TdlCollection.Add(new TDL() { Name = "masini" });
+            _tdl.TdlCollection.Add(new TDL() { Name = "sula" });
+            _tdl.TdlCollection[0].TasksCollection.Add(new Task() { taskName = "Du-te la scoala", taskDescription = "mai repede" });
+            _tdl.TdlCollection[0].TdlCollection.Add(new TDL() { Name = "hei prieteni", Image = "../Assets/TDLIcons/School" });
+            _tdl.TdlCollection[0].TdlCollection.Add(new TDL() { Name = "ai reusit" });
+
+            ADD_TDLVM = new Add_TDLVM(_tdl);
         }
         
        public void Add_Root_TDL(object param)
         {
             var addWindow = new Add_TDL();
+            addWindow.DataContext = ADD_TDLVM;
             MessageBox.Show("BV");
             addWindow.Show();
         }
