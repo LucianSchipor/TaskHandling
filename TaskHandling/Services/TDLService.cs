@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using TaskHandling.Models;
 
 namespace TaskHandling.Services
@@ -12,7 +13,7 @@ namespace TaskHandling.Services
         private TDL tdl;
         public TDLService(TDL tdl)
         {
-            this.tdl = tdl; 
+            this.tdl = tdl;
         }
         public void AddTask(Task task)
         {
@@ -23,7 +24,8 @@ namespace TaskHandling.Services
             tdl.TdlCollection.Add(newTDL);
         }
 
-        public void RemoveTask(Task task) { 
+        public void RemoveTask(Task task)
+        {
             tdl.TasksCollection.Remove(task);
         }
 
@@ -32,5 +34,24 @@ namespace TaskHandling.Services
             tdl.TdlCollection.Remove(tDL);
         }
 
+        private void SwapTDLs(TDL first, TDL second)
+        {
+            var aux = new TDL();
+            aux = first;
+            first = second;
+            second = aux;
+        }
+
+        public void MoveTDL(string mode)
+        {
+            if (mode == "up")
+            {
+                var index = this.tdl.parent.TdlCollection.IndexOf(this.tdl);
+                if (index != 0)
+                    SwapTDLs(this.tdl.parent.TdlCollection[index], this.tdl.parent.TdlCollection[index - 1]);
+                else
+                    MessageBox.Show("This TDL is the first.");
+            }
+        }
     }
 }

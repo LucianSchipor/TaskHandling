@@ -41,7 +41,7 @@
                             <MenuItem Header="Add Sub-TDL"/>
                             <MenuItem Header="Edit"/>
                             <MenuItem Header="Delete"/>
-                            <MenuItem Header="Move-Up"/>
+                            <MenuItem Header="Move-Up" Command="{Binding MoveUpTDLCommand}" />
                             <MenuItem Header="Move-Down"/>
                             <MenuItem Header="Manage Category"/>
                             <MenuItem Header="Find Task"/>
@@ -69,8 +69,8 @@
                         </MenuItem>
                     </Menu>
                 </WrapPanel>
-
-                <TreeView ItemsSource="{Binding _tdl.TdlCollection}">
+                <TreeView x:Name="tdlTreeView" 
+                          ItemsSource="{Binding treeViewModel._tdl.TdlCollection}">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding TdlCollection}">
                             <WrapPanel>
@@ -113,9 +113,9 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-
+            
                 <Grid Grid.Row="1" 
-                      Background="White" 
+                      Background="Gray" 
                       Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="22*"/>
@@ -141,14 +141,24 @@
                         <Label Content="Due Date" Grid.Column ="3"/>
                     </Grid>
 
-                    <ListBox Grid.Row="1" Grid.ColumnSpan="3">
-                        <CheckBox Content="Lab1"/>
-                        <CheckBox Content="Lab1"/>
-                        <CheckBox Content="Lab1"/>
-                        <CheckBox Content="Lab1"/>
-                        <CheckBox Content="Lab1"/>
-                        <CheckBox Content="Lab1"/>
-                        <CheckBox Content="Lab1"/>
+                    <ListBox x:Name="tasksListBox" ItemsSource="{Binding _tasksToView}"
+                        Grid.Row="1">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Text="{Binding taskName}" />
+                                    <TextBlock Text="{Binding taskPriority}" />
+                                    <TextBlock Text="{Binding taskType}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
             </Grid>

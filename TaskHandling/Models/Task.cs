@@ -9,17 +9,17 @@ namespace TaskHandling.Models
             this.taskName = "New Task";
             this.taskDescription = "New Task";
             this.taskType = "New Task";
-            this.status = "Created";
-            this.priority = "Undefined";
+            this.taskStatus = "Created";
+            this.taskPriority = "Undefined";
         }
 
         public string taskName { get; set; }
         public string taskDescription { get; set; }
         public string taskType { get; set; }
 
-        public string status;
+        public string taskStatus;
 
-        public string priority;
+        public string taskPriority;
 
         public DateTime deadLine { get; set; }
         public DateTime taskDoneTime { get; set; }
