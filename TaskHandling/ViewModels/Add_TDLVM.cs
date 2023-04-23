@@ -18,8 +18,8 @@ namespace TaskHandling.ViewModels
 {
     public class Add_TDLVM : INotifyPropertyChanged
     {
-        TDLService _tdlService;
-        TDL _tdl;
+        public TDLService _tdlService;
+        public TDL _tdl;
 
         private string imgPath;
         public string IMGPath
@@ -52,7 +52,6 @@ namespace TaskHandling.ViewModels
         {
             _tdl = tdlList;
             _tdlService = new TDLService(_tdl);
-            //trebuie ca TDL sa nu fie initializat, ci sa ia context-ul dinainte
         }
 
         public Add_TDLVM()
@@ -88,7 +87,9 @@ namespace TaskHandling.ViewModels
             if (newTDL.Name != null && newTDL.Image != null)
             {
                 _tdlService.AddTDL(newTDL);
+                _tdlService.SaveToFile(null);
                 MessageBox.Show("To Do List" + TDLName + "a fost adaugat in lista!.");
+                
             }
             else
             {

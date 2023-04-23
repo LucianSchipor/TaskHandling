@@ -26,14 +26,14 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" 
                         Background="White">
-
+                
                 <WrapPanel>
                     <Menu>
                         <MenuItem x:Name="File_Menu" Header="File" Width = "40">
+                            <MenuItem Header="New Database" Command="{Binding CreateDatabaseCommand}"/>
                             <MenuItem Header="Open Database" Command="{Binding OpenDatabaseCommand}" />
-                            <MenuItem Header="New Database" />
                             <MenuItem Header="Archive Database" Command="{Binding ArchiveDatabaseCommand}"/>
-                            <MenuItem Header="Exit Database" />
+                            <MenuItem Header="Exit" Click="MenuItem_Click"/>
                         </MenuItem>
 
                         <MenuItem Header="TDL"  Width = "40">
@@ -79,7 +79,11 @@
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
+                
             </StackPanel>
+            <Label Grid.Row="1" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding currentDatabase}">
+                    
+            </Label>
             <Grid x:Name="statsPanel" Background="LightYellow" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Xml.Serialization;
 using TaskHandling.Models;
+using TaskHandling.ViewModels;
+using TaskHandling.Views;
 
 namespace TaskHandling.Services
 {
-    class TDLService
+    public class TDLService
     {
         private TDL tdl;
+        public string currentFileName;
         public TDLService(TDL tdl)
         {
             this.tdl = tdl;
+            currentFileName = " ";
         }
         public void AddTask(Task task)
         {
@@ -52,6 +58,17 @@ namespace TaskHandling.Services
                     SwapTDLs(this.tdl.parent.TdlCollection[index], this.tdl.parent.TdlCollection[index - 1]);
                 else
                     MessageBox.Show("This TDL is the first.");
+            }
+        }
+
+        public void SaveToFile(object parameter)
+        {
+
+            var fileName = "TDL.txt";
+            XmlSerializer serializer = new XmlSerializer(typeof(TDL));
+            using (FileStream stream = new FileStream(currentFileName, FileMode.Create))
+            {
+                serializer.Serialize(stream, tdl);
             }
         }
     }

@@ -44,11 +44,11 @@ namespace TaskHandling.ViewModels
         {
             get
             {
-                return _tdla;   
+                return _tdla;
             }
             set
             {
-               _tdla = value;
+                _tdla = value;
                 NotifyPropertyChanged(nameof(_tdla));
             }
         }
@@ -58,6 +58,7 @@ namespace TaskHandling.ViewModels
 
     public class MainWindowVM : INotifyPropertyChanged
     {
+        public string currentDatabase;
         public Add_TDLVM ADD_TDLVM { get; set; }
         public TDL selectedTDL;
 
@@ -71,7 +72,7 @@ namespace TaskHandling.ViewModels
             treeViewModel = new TreeViewModel();
             tdlService = new TDLService(treeViewModel._tdl);
             ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl);
-
+            currentDatabase = "Undefined";
         }
 
         public void Add_Root_TDL(object param)
@@ -80,6 +81,7 @@ namespace TaskHandling.ViewModels
             addWindow.DataContext = ADD_TDLVM;
             MessageBox.Show("BV");
             addWindow.Show();
+            
         }
 
         void viewTasks(object param)
@@ -179,7 +181,7 @@ namespace TaskHandling.ViewModels
             {
                 if (archiveDatabaseCommand == null)
                 {
-                    archiveDatabaseCommand = new RelayCommand(SaveToFile);
+                    archiveDatabaseCommand = new RelayCommand(tdlService.SaveToFile);
                 }
                 return archiveDatabaseCommand;
             }
@@ -193,23 +195,65 @@ namespace TaskHandling.ViewModels
                 if (openDatabaseCommand == null)
                 {
                     openDatabaseCommand = new RelayCommand(GetTDLFromFile);
-
                 }
                 return openDatabaseCommand;
             }
         }
 
-        public void SaveToFile(object parameter)
+        public void CreateToFile(object sender)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(TDL));
-            var fileName = "TDL.txt";
+            var fileName = "Unknown";
             var fileNameDialog = new InputDialog("Salut");
-
+            fileNameDialog.label.Content = "Choose File Name";
             if (fileNameDialog.ShowDialog() == true)
             {
                 fileName = fileNameDialog.Answer;
             }
 
+            if (!File.Exists(fileName))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(TDL));
+                using (FileStream stream = new FileStream(fileName, FileMode.Create))
+                {
+                    TDL newTDL = new TDL();
+                    serializer.Serialize(stream, newTDL);
+                    treeViewModel._tdl = newTDL;
+                    ADD_TDLVM._tdlService.currentFileName = fileName;
+                }
+            }
+            else
+            {
+                if (fileName != " ")
+                    MessageBox.Show("Database with this name already exist.");
+            }
+        }
+
+        private ICommand createDatabaseCommand;
+        public ICommand CreateDatabaseCommand
+        {
+            get
+            {
+                if (createDatabaseCommand == null)
+                {
+                    createDatabaseCommand = new RelayCommand(CreateToFile);
+
+                }
+                return createDatabaseCommand;
+            }
+        }
+
+        public void SaveToFile(object parameter)
+        {
+
+            var fileName = "TDL.txt";
+            var fileNameDialog = new InputDialog("Salut");
+            fileNameDialog.label.Content = "Choose File Name";
+            if (fileNameDialog.ShowDialog() == true)
+            {
+                fileName = fileNameDialog.Answer;
+            }
+
+            XmlSerializer serializer = new XmlSerializer(typeof(TDL));
             using (FileStream stream = new FileStream(fileName, FileMode.Create))
             {
                 serializer.Serialize(stream, treeViewModel._tdl);
@@ -238,6 +282,8 @@ namespace TaskHandling.ViewModels
                     treeViewModel._tdl = newTDL;
                     ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl);
                     treeViewModel.NotifyPropertyChanged(nameof(treeViewModel._tdl));
+                    tdlService.currentFileName = fileName;
+                    this.OnPropertyChanged(nameof(currentDatabase));
                 }
             }
             else
