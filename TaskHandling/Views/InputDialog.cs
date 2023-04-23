@@ -13,7 +13,7 @@ namespace TaskHandling.Views
     public class InputDialog : Window
     {
         private readonly TextBox textBox = new TextBox();
-        private readonly Label label = new Label();
+        public Label label = new Label();
         private readonly Button okButton = new Button { Content = "OK" };
         private readonly Button cancelButton = new Button { Content = "Cancel" };
         public string Answer => textBox.Text;

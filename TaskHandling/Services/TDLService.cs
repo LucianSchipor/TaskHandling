@@ -22,6 +22,7 @@ namespace TaskHandling.Services
         public void AddTDL(TDL newTDL)
         {
             tdl.TdlCollection.Add(newTDL);
+            tdl.NotifyPropertyChanged(nameof(tdl));
         }
 
         public void RemoveTask(Task task)

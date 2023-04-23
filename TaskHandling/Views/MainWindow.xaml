@@ -30,9 +30,9 @@
                 <WrapPanel>
                     <Menu>
                         <MenuItem x:Name="File_Menu" Header="File" Width = "40">
-                            <MenuItem Header="Open Database" />
+                            <MenuItem Header="Open Database" Command="{Binding OpenDatabaseCommand}" />
                             <MenuItem Header="New Database" />
-                            <MenuItem Header="Archive Database" />
+                            <MenuItem Header="Archive Database" Command="{Binding ArchiveDatabaseCommand}"/>
                             <MenuItem Header="Exit Database" />
                         </MenuItem>
 
@@ -69,8 +69,7 @@
                         </MenuItem>
                     </Menu>
                 </WrapPanel>
-                <TreeView x:Name="tdlTreeView" 
-                          ItemsSource="{Binding treeViewModel._tdl.TdlCollection}">
+                <TreeView x:Name="tdlTreeView" ItemsSource="{Binding treeViewModel._tdl.TdlCollection}">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding TdlCollection}">
                             <WrapPanel>
@@ -113,7 +112,7 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-            
+
                 <Grid Grid.Row="1" 
                       Background="Gray" 
                       Margin="10">
@@ -134,7 +133,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Label Content="Task Name" Grid.Column ="0"/>
                         <Label Content="Priority" Grid.Column ="1"/>
                         <Label Content="Type" Grid.Column ="2"/>
@@ -152,7 +151,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <TextBlock Text="{Binding taskName}" />
                                     <TextBlock Text="{Binding taskPriority}" />
                                     <TextBlock Text="{Binding taskType}" />
