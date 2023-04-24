@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using TaskHandling.Services;
 
 namespace TaskHandling.Models
 {
@@ -7,6 +8,7 @@ namespace TaskHandling.Models
     {
         public TDL parent;
         public event PropertyChangedEventHandler PropertyChanged;
+        public TDLService tdlservice;
 
         public void NotifyPropertyChanged(string propertyName)
         {
@@ -19,13 +21,15 @@ namespace TaskHandling.Models
         this._image = "../Assets/TDLIcons/sport";
         _tdlCollection = new ObservableCollection<TDL>();
         _tasksColletion = new ObservableCollection<Task>();
+            tdlservice = new TDLService(this);
     }
 
-    public TDL(TDL parent) : this()
+        public TDL(TDL parent) : this()
     {
             this.parent = parent;
     }
-
+    
+       
     private string _name;
     public string Name
     {

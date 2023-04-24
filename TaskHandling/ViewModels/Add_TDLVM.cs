@@ -48,12 +48,13 @@ namespace TaskHandling.ViewModels
             }
         }
 
-        public Add_TDLVM(TDL tdlList)
+        public Add_TDLVM(TDL tdlList, TDLService tDLService)
         {
             _tdl = tdlList;
-            _tdlService = new TDLService(_tdl);
+            _tdlService = tDLService;
         }
 
+        
         public Add_TDLVM()
         {
             //pentru context pe XAML deoarece trebuie sa am si un constructor fara parametri
@@ -67,7 +68,6 @@ namespace TaskHandling.ViewModels
                 IMGPath = browseDialog.FileName;
             }
         }
-
 
         private void SetName(object param)
         {
@@ -89,6 +89,7 @@ namespace TaskHandling.ViewModels
                 _tdlService.AddTDL(newTDL);
                 _tdlService.SaveToFile(null);
                 MessageBox.Show("To Do List" + TDLName + "a fost adaugat in lista!.");
+                
                 
             }
             else

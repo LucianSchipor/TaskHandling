@@ -16,9 +16,12 @@ namespace TaskHandling.Services
     {
         private TDL tdl;
         public string currentFileName;
-        public TDLService(TDL tdl)
+        public TDLService(TDL tdl) : this()
         {
             this.tdl = tdl;
+        }
+        public TDLService()
+        {
             currentFileName = " ";
         }
         public void AddTask(Task task)
@@ -28,7 +31,7 @@ namespace TaskHandling.Services
         public void AddTDL(TDL newTDL)
         {
             tdl.TdlCollection.Add(newTDL);
-            tdl.NotifyPropertyChanged(nameof(tdl));
+            tdl.NotifyPropertyChanged(nameof(tdl.TdlCollection));
         }
 
         public void RemoveTask(Task task)
@@ -64,7 +67,7 @@ namespace TaskHandling.Services
         public void SaveToFile(object param)
         {
 
-            var fileName = "TDL.txt";
+            var fileName = currentFileName;
             XmlSerializer serializer = new XmlSerializer(typeof(TDL));
             using (FileStream stream = new FileStream(currentFileName, FileMode.Create))
             {

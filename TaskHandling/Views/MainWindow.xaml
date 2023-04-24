@@ -26,7 +26,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="150" />
             </Grid.RowDefinitions>
-           
+
             <StackPanel Grid.Row="0" 
                         Background="White">
                 <Label FontSize="10">
@@ -47,7 +47,7 @@
 
                         <MenuItem Header="TDL"  Width = "40">
                             <MenuItem Header="Add Root TDL" Command="{Binding AddRootCommand}" />
-                            <MenuItem Header="Add Sub-TDL"/>
+                            <MenuItem Header="Add Sub-TDL" Command="{Binding AddSubTDLCommand}"/>
                             <MenuItem Header="Edit"/>
                             <MenuItem Header="Delete"/>
                             <MenuItem Header="Move-Up" Command="{Binding MoveUpTDLCommand}" />
@@ -57,7 +57,7 @@
                         </MenuItem>
 
                         <MenuItem Header="Task" Width = "40">
-                            <MenuItem Header="Add"/>
+                            <MenuItem Header="Add" Command="{Binding AddTaskToTDLCommand}"/>
                             <MenuItem Header="Edit"/>
                             <MenuItem Header="Delete"/>
                             <MenuItem Header="Set Done"/>
@@ -83,7 +83,7 @@
                           behavior:CommandBehavior.Command="{Binding SelectItemCommand}"
                           behavior:CommandBehavior.CommandParameter="{Binding SelectedItem, ElementName=tdlTreeView}"
                           behavior:CommandBehavior.Event="SelectedItemChanged">
-                    
+
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding TdlCollection}">
                             <WrapPanel>
@@ -127,38 +127,31 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label
                    Margin="10,10,0,0"
                    FontSize="12"
                    HorizontalAlignment="Left">
-                <WrapPanel>
-                    <TextBlock Text="Viewing " />
-                    <TextBlock Text="{Binding treeViewModel.SelectedItem.Name}"/>
-                    <TextBlock Text=" to do list. "/>
-                    <TextBlock Text="{Binding treeViewModel.SelectedItem.TasksCollection.Count}"/>
-                    <TextBlock Text=" tasks shown" />
-                </WrapPanel>
-            </Label>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                    <WrapPanel>
+                        <TextBlock Text="Viewing " />
+                        <TextBlock Text="{Binding treeViewModel.SelectedItem.Name}" FontWeight="Bold"/>
+                        <TextBlock Text=" to do list. "/>
+                        <TextBlock Text="{Binding treeViewModel.SelectedItem.TasksCollection.Count}" FontWeight="Bold"/>
+                        <TextBlock Text=" tasks shown" />
+                    </WrapPanel>
+                </Label>
 
-                <Grid Grid.Row="1" 
-                      Background="Gray" 
-                      Margin="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="22*"/>
-                        <ColumnDefinition Width="13*"/>
-                        <ColumnDefinition Width="81*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="5,0,0,0">
 
-                    <Grid Grid.Row="0" Grid.ColumnSpan="3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -166,33 +159,30 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Task Name" Grid.Column ="0"/>
-                        <Label Content="Priority" Grid.Column ="1"/>
-                        <Label Content="Type" Grid.Column ="2"/>
-                        <Label Content="Due Date" Grid.Column ="3"/>
+                        <Label Content="Task Name" Grid.Column = "0"/>
+                        <Label Content="Priority"  Grid.Column = "1"/>
+                        <Label Content="Type"      Grid.Column = "2"/>
+                        <Label Content="Due Date"  Grid.Column = "3" />
                     </Grid>
 
-                    <ListBox x:Name="tasksListBox" ItemsSource="{Binding _tasksToView}"
-                        Grid.Row="1">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Text="{Binding taskName}" />
-                                    <TextBlock Text="{Binding taskPriority}" />
-                                    <TextBlock Text="{Binding taskType}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <Grid Grid.Row="1">
+                        <ListBox Margin="5" ItemsSource="{Binding treeViewModel.SelectedItem.TasksCollection}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <TextBlock Text="{Binding taskName}"  Grid.Column="3"    Margin = "80,0,0,0"    />
+                                        <TextBlock Text="{Binding taskPriority}" Grid.Column="0" Margin = "0,0,0,0"    />
+                                        <TextBlock Text="{Binding taskType}" Grid.Column="1"     Margin = "80,0,0,0"    />
+                                        <TextBlock Text="{Binding deadLine}" Grid.Column="2" Margin = "80,0,0,0"    />
+                                    </WrapPanel>    
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                 </Grid>
             </Grid>
+
+
             <Label Content="Selected tasks's notes and attachaments: " 
                    Grid.Row="1"
                    Margin="10,0,0,0"
