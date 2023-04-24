@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskHandling.Views"
+        xmlns:behavior ="clr-namespace:AttachedCommandBehavior;assembly=AttachedCommandBehavior"
+        xmlns:models="clr-namespace:TaskHandling.Models"
         xmlns:ctx ="clr-namespace:TaskHandling.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -24,9 +26,16 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="150" />
             </Grid.RowDefinitions>
+           
             <StackPanel Grid.Row="0" 
                         Background="White">
-                
+                <Label FontSize="10">
+                    <WrapPanel>
+                        <TextBlock Text="Current database: "/>
+                        <TextBlock Text="{Binding currentDatabase}" />
+                    </WrapPanel>
+                </Label>
+
                 <WrapPanel>
                     <Menu>
                         <MenuItem x:Name="File_Menu" Header="File" Width = "40">
@@ -69,7 +78,12 @@
                         </MenuItem>
                     </Menu>
                 </WrapPanel>
-                <TreeView x:Name="tdlTreeView" ItemsSource="{Binding treeViewModel._tdl.TdlCollection}">
+
+                <TreeView x:Name="tdlTreeView"  ItemsSource="{Binding treeViewModel._tdl.TdlCollection}"
+                          behavior:CommandBehavior.Command="{Binding SelectItemCommand}"
+                          behavior:CommandBehavior.CommandParameter="{Binding SelectedItem, ElementName=tdlTreeView}"
+                          behavior:CommandBehavior.Event="SelectedItemChanged">
+                    
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding TdlCollection}">
                             <WrapPanel>
@@ -79,22 +93,28 @@
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
-                
+
             </StackPanel>
-            <Label Grid.Row="1" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding currentDatabase}">
-                    
+            <Label Grid.Row="1" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+
             </Label>
-            <Grid x:Name="statsPanel" Background="LightYellow" Grid.Row="1">
+            <Grid x:Name="statsPanel" Background="LightYellow" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="22*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
-                <WrapPanel Grid.Row="0">
+                <WrapPanel Grid.Row="0" Grid.ColumnSpan="4">
                     <Label Foreground="Orange" FontWeight ="Bold" Content="Tasks due today: 0" />
                     <Label Foreground="Blue" FontWeight ="Bold" Content="Tasks due tomorrow: 0" />
                     <Label Foreground="Red" FontWeight ="Bold" Content="Tasks overdue: 0" />
                 </WrapPanel>
-                <StackPanel x:Name="tasksDone" Grid.Row ="1">
+                <StackPanel x:Name="tasksDone" Grid.Row ="1" Grid.ColumnSpan="4">
                     <Label Foreground="Green" FontWeight ="Bold" Content="Tasks done: 0"/>
                     <Label Foreground="Green" FontWeight ="Bold" Content="Tasks to be done: 0"/>
                 </StackPanel>
@@ -107,10 +127,18 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label Content="Viewing A CATEGORY to-do list. NUMBER tasks shown" 
+            <Label
                    Margin="10,10,0,0"
                    FontSize="12"
-                   HorizontalAlignment="Left"/>
+                   HorizontalAlignment="Left">
+                <WrapPanel>
+                    <TextBlock Text="Viewing " />
+                    <TextBlock Text="{Binding treeViewModel.SelectedItem.Name}"/>
+                    <TextBlock Text=" to do list. "/>
+                    <TextBlock Text="{Binding treeViewModel.SelectedItem.TasksCollection.Count}"/>
+                    <TextBlock Text=" tasks shown" />
+                </WrapPanel>
+            </Label>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />

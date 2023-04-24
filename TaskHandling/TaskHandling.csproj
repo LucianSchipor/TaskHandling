@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AttachedCommandBehavior" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\ButtonIcons\DOWN.png" />
     <Resource Include="Assets\ButtonIcons\Remove free icons designed by Pixel perfect.png" />
     <Resource Include="Assets\ButtonIcons\Search free vector icons designed by Freepik.png" />

@@ -22,7 +22,8 @@ namespace TaskHandling.ViewModels
         public TreeViewModel()
         {
             _tdl = new TDL();
-
+            selectedItem = new TDL();
+            selectedItem.Name = "Unknown";
         }
 
         private TDL selectedItem;
@@ -53,20 +54,40 @@ namespace TaskHandling.ViewModels
             }
         }
 
+         public RoutedEventHandler MyDoubleClickCommand
+        {
+            get
+            {
+                return new RoutedEventHandler((sender, e) =>
+                {
+                    var element = sender as FrameworkElement;
+                    if (element != null)
+                    {
+                        var item = element.DataContext;
+                        this.selectedItem = item as TDL;
+                        NotifyPropertyChanged(nameof(selectedItem));
+                    }
+                });
+            }
+        }
 
     }
 
     public class MainWindowVM : INotifyPropertyChanged
     {
-        public string currentDatabase;
+        public int tasksDueToday;
+        public int tasksDueTomorrow;
+        public int tasksOverDue;
+        public int tasksDone;
+        public int tasksToBeDone;
+        //le voi lega cu butoanele de add de tasks
+
+        public string currentDatabase { get ; set; }
         public Add_TDLVM ADD_TDLVM { get; set; }
         public TDL selectedTDL;
-
         public ObservableCollection<Task> _tasksToView { get; set; }
-
         TDLService tdlService;
         public TreeViewModel treeViewModel { get; set; }
-
         public MainWindowVM()
         {
             treeViewModel = new TreeViewModel();
@@ -84,29 +105,25 @@ namespace TaskHandling.ViewModels
             
         }
 
-        void viewTasks(object param)
+        private void selectItem(TDL tdl)
         {
-            _tasksToView = treeViewModel.SelectedItem.TasksCollection;
+            treeViewModel.SelectedItem = tdl;
         }
 
-        private ICommand itemDoubleClickedCommand;
-        public ICommand ItemDoubleClickedCommand
+        private ICommand selectItemCommand;
+        public ICommand SelectItemCommand
         {
             get
             {
-                if (itemDoubleClickedCommand == null)
+                if(selectItemCommand == null)
                 {
-                    itemDoubleClickedCommand = new RelayCommand(SelectionChanged);
+                    selectItemCommand = new RelayCommandN<TDL>(selectItem);
                 }
-                return itemDoubleClickedCommand;
+                return selectItemCommand;
             }
-        }
-
-        public void SelectionChanged(object sender)
-        {
-            if (sender is RoutedPropertyChangedEventArgs<TDL> args)
+            set
             {
-                _tasksToView = args.NewValue.TasksCollection;
+
             }
         }
 
@@ -120,39 +137,6 @@ namespace TaskHandling.ViewModels
                     addRootCommand = new RelayCommand(Add_Root_TDL);
                 }
                 return addRootCommand;
-            }
-        }
-
-        private ICommand viewTasksCommand;
-        public ICommand ViewTasksCommand
-        {
-            get
-            {
-                if (viewTasksCommand == null)
-                {
-                    viewTasksCommand = new RelayCommand(viewTasks);
-                }
-                return viewTasksCommand;
-            }
-        }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get
-            {
-                return _isSelected;
-            }
-            set
-            {
-                if (_isSelected != value)
-                {
-                    _isSelected = value;
-                    OnPropertyChanged("IsSelected");
-                    if (_isSelected)
-                    {
-                    }
-                }
             }
         }
 
@@ -219,6 +203,8 @@ namespace TaskHandling.ViewModels
                     serializer.Serialize(stream, newTDL);
                     treeViewModel._tdl = newTDL;
                     ADD_TDLVM._tdlService.currentFileName = fileName;
+                    currentDatabase = fileName;
+                    this.OnPropertyChanged(nameof(currentDatabase));
                 }
             }
             else
@@ -283,6 +269,7 @@ namespace TaskHandling.ViewModels
                     ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl);
                     treeViewModel.NotifyPropertyChanged(nameof(treeViewModel._tdl));
                     tdlService.currentFileName = fileName;
+                    currentDatabase = fileName;
                     this.OnPropertyChanged(nameof(currentDatabase));
                 }
             }
