@@ -20,7 +20,6 @@ namespace TaskHandling.ViewModels
         public Add_TaskVM(ObservableCollection<Task> taskList)
         {
             selectedDate = DateTime.Now.ToString();
-
             newTask = new Task();
             taskVM = new TaskVM(newTask);
             this.taskList = taskList;
@@ -108,7 +107,7 @@ namespace TaskHandling.ViewModels
                 return setTaskType;
             }
         }
-        private void SetName(object param)
+        public void SetName(object param)
         {
             var dialog = new InputDialog("Name");
             if (dialog.ShowDialog() == true)
@@ -123,13 +122,13 @@ namespace TaskHandling.ViewModels
             this.NotifyPropertyChanged(nameof(taskList));
         }
 
-        private void SetPriority(object param)
+        public void SetPriority(object param)
         {
             var textBlock = param as TextBlock;
             taskVM.TaskPriority = textBlock.Text;
         }
 
-        private void SetType(object param)
+        public void SetType(object param)
         {
             var textBlock = param as TextBlock;
             taskVM.TaskType = textBlock.Text;
@@ -150,7 +149,7 @@ namespace TaskHandling.ViewModels
             }
         }
 
-        private void SetDeadLine(object param)
+        public void SetDeadLine(object param)
         {
             if (selectedDate != null)
             {
@@ -158,7 +157,7 @@ namespace TaskHandling.ViewModels
             }
         }
 
-        private void SetDescription(object param)
+        public void SetDescription(object param)
         {
             var dialog = new InputDialog("Description");
             if (dialog.ShowDialog() == true)

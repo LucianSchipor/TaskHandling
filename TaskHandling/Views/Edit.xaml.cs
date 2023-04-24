@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace TaskHandling.Views
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for Edit.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class Edit : Window
     {
-        public Window1()
+        public Edit()
         {
             InitializeComponent();
         }

@@ -21,14 +21,8 @@ namespace TaskHandling.Models
         this._image = "../Assets/TDLIcons/sport";
         _tdlCollection = new ObservableCollection<TDL>();
         _tasksColletion = new ObservableCollection<Task>();
-            tdlservice = new TDLService(this);
+        tdlservice = new TDLService(this);
     }
-
-        public TDL(TDL parent) : this()
-    {
-            this.parent = parent;
-    }
-    
        
     private string _name;
     public string Name

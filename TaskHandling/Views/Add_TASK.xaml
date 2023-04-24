@@ -88,6 +88,6 @@
             <Label Content="{Binding taskVM.DeadLine}"/>
         </WrapPanel>
 
-            <Button Background="LightBlue" Grid.Row="5" Content="Create" Width="100" Height="75" HorizontalAlignment="Center" Command="{Binding CreateTaskCommand}"/>
+            <Button x:Name ="actionButton"  Background="LightBlue" Grid.Row="5" Content="Create" Width="100" Height="75" HorizontalAlignment="Center" Command="{Binding CreateTaskCommand}"/>
     </Grid>
 </Window>

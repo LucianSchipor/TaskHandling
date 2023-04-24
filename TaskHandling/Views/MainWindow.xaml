@@ -48,8 +48,8 @@
                         <MenuItem Header="TDL"  Width = "40">
                             <MenuItem Header="Add Root TDL" Command="{Binding AddRootCommand}" />
                             <MenuItem Header="Add Sub-TDL" Command="{Binding AddSubTDLCommand}"/>
-                            <MenuItem Header="Edit"/>
-                            <MenuItem Header="Delete"/>
+                            <MenuItem Header="Edit" Command="{Binding EditTDLCommand}"/>
+                            <MenuItem Header="Delete" Command="{Binding DeleteTDLCommand}"/>
                             <MenuItem Header="Move-Up" Command="{Binding MoveUpTDLCommand}" />
                             <MenuItem Header="Move-Down"/>
                             <MenuItem Header="Manage Category"/>
@@ -166,7 +166,10 @@
                     </Grid>
 
                     <Grid Grid.Row="1">
-                        <ListBox Margin="5" ItemsSource="{Binding treeViewModel.SelectedItem.TasksCollection}">
+                        <ListBox x:Name="ListBox" Margin="5" ItemsSource="{Binding treeViewModel.SelectedItem.TasksCollection}"
+                                 behavior:CommandBehavior.Command="{Binding SelectTaskCommand}"
+                                 behavior:CommandBehavior.Event="SelectionChanged"
+                                 behavior:CommandBehavior.CommandParameter="{Binding SelectedItem, ElementName=ListBox}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <WrapPanel>
@@ -190,7 +193,7 @@
             <Grid Grid.Row="1"
                   Background="White"
                   Margin="10,30,10,10">
-                <TextBlock Text="Lururi extrem de importante" 
+                <TextBlock Text="{Binding selectedTask.taskDescription}" 
                            FontSize="20"/>
             </Grid>
         </Grid>

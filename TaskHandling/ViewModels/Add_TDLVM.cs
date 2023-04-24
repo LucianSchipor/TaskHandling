@@ -47,6 +47,19 @@ namespace TaskHandling.ViewModels
                 NotifyPropertyChanged(nameof(tdlName));
             }
         }
+        private TDL tdlparent;
+        public TDL TDLParent
+        {
+            get
+            {
+                return tdlparent;
+            }
+            set
+            {
+                tdlparent = value;
+                NotifyPropertyChanged(nameof(tdlparent));
+            }
+        }
 
         public Add_TDLVM(TDL tdlList, TDLService tDLService)
         {
@@ -54,10 +67,10 @@ namespace TaskHandling.ViewModels
             _tdlService = tDLService;
         }
 
-        
+
         public Add_TDLVM()
         {
-            //pentru context pe XAML deoarece trebuie sa am si un constructor fara parametri
+
         }
 
         private void BrowseImage(object param)
@@ -83,14 +96,12 @@ namespace TaskHandling.ViewModels
             TDL newTDL = new TDL();
             newTDL.Name = TDLName;
             newTDL.Image = IMGPath;
-
+            
             if (newTDL.Name != null && newTDL.Image != null)
             {
                 _tdlService.AddTDL(newTDL);
                 _tdlService.SaveToFile(null);
                 MessageBox.Show("To Do List" + TDLName + "a fost adaugat in lista!.");
-                
-                
             }
             else
             {

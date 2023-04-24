@@ -19,11 +19,14 @@ namespace TaskHandling.ViewModels
     public class TreeViewModel : BaseVM
     {
 
+        public Task selectedTask;
         public TreeViewModel()
         {
             _tdl = new TDL();
             selectedItem = new TDL();
             selectedItem.Name = "Unknown";
+            selectedTask = new Task();
+            selectedTask.taskDescription = "Hi brother";
         }
 
         private TDL selectedItem;
@@ -54,45 +57,21 @@ namespace TaskHandling.ViewModels
             }
         }
 
-        public RoutedEventHandler MyDoubleClickCommand
-        {
-            get
-            {
-                return new RoutedEventHandler((sender, e) =>
-                {
-                    var element = sender as FrameworkElement;
-                    if (element != null)
-                    {
-                        var item = element.DataContext;
-                        this.selectedItem = item as TDL;
-                        NotifyPropertyChanged(nameof(selectedItem));
-                    }
-                });
-            }
-        }
+      
 
     }
 
     public class MainWindowVM : INotifyPropertyChanged
     {
-        public int tasksDueToday;
-        public int tasksDueTomorrow;
-        public int tasksOverDue;
-        public int tasksDone;
-        public int tasksToBeDone;
-        //le voi lega cu butoanele de add de tasks
-
         public string currentDatabase { get; set; }
         public Add_TDLVM ADD_TDLVM { get; set; }
-        public TDL selectedTDL;
-        public ObservableCollection<Task> _tasksToView { get; set; }
         TDLService tdlService;
         public TreeViewModel treeViewModel { get; set; }
         public MainWindowVM()
         {
             treeViewModel = new TreeViewModel();
             tdlService = new TDLService(treeViewModel._tdl);
-            ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, tdlService);
+            ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, treeViewModel._tdl.tdlservice);
             currentDatabase = "Undefined";
         }
 
@@ -107,7 +86,24 @@ namespace TaskHandling.ViewModels
         {
             treeViewModel.SelectedItem = tdl;
             SaveOnActionsToFIle();
-            
+        }
+
+        private ICommand selectTaskCommand;
+        public ICommand SelectTaskCommand
+        {
+            get
+            {
+                if (selectTaskCommand == null)
+                {
+                    selectTaskCommand = new RelayCommandN<Task>(SelectTask);
+                }
+                    return selectTaskCommand;
+            }
+        }
+
+        private void SelectTask(Task task)
+        {
+            treeViewModel.selectedTask = task;
         }
 
         private ICommand selectItemCommand;
@@ -174,7 +170,10 @@ namespace TaskHandling.ViewModels
 
         public void EditTDL(object param)
         {
-            
+            var window = new Edit();
+            window.DataContext = new EditVM(treeViewModel.SelectedItem);
+            window.Show();
+
         }
 
         private void AddTaskToTDL(object param)
@@ -265,8 +264,10 @@ namespace TaskHandling.ViewModels
                 {
                     TDL newTDL = new TDL();
                     serializer.Serialize(stream, newTDL);
+
                     treeViewModel._tdl = newTDL;
                     treeViewModel._tdl.tdlservice.currentFileName = fileName;
+                    ADD_TDLVM._tdlService = treeViewModel._tdl.tdlservice;
                     currentDatabase = fileName;
                     treeViewModel.NotifyPropertyChanged(nameof(treeViewModel._tdl));
                     this.OnPropertyChanged(nameof(currentDatabase));
@@ -293,6 +294,25 @@ namespace TaskHandling.ViewModels
             }
         }
 
+        private ICommand deleteTDLCommand;
+        public ICommand DeleteTDLCommand
+        {
+            get
+            {
+                if (deleteTDLCommand == null)
+                {
+                    deleteTDLCommand = new RelayCommand(DeleteTDL);
+
+                }
+                return deleteTDLCommand;
+            }
+        }
+
+        public void DeleteTDL(object param)
+        {
+            treeViewModel._tdl.TdlCollection.Remove(treeViewModel.SelectedItem);
+        }
+
         public void SaveToFile(object parameter)
         {
 
@@ -311,7 +331,7 @@ namespace TaskHandling.ViewModels
             }
         }
 
-       public void SaveOnActionsToFIle()
+        public void SaveOnActionsToFIle()
         {
 
             XmlSerializer serializer = new XmlSerializer(typeof(TDL));
@@ -341,9 +361,9 @@ namespace TaskHandling.ViewModels
                 {
                     newTDL = (TDL)serializer.Deserialize(stream);
                     treeViewModel._tdl = newTDL;
-                    tdlService = new TDLService(newTDL);
-                    tdlService.currentFileName = fileName;
-                    ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, tdlService);
+                    treeViewModel._tdl.tdlservice = new TDLService(newTDL);
+                    treeViewModel._tdl.tdlservice.currentFileName = fileName;
+                    ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, treeViewModel._tdl.tdlservice);
                     treeViewModel.NotifyPropertyChanged(nameof(treeViewModel._tdl));
                     currentDatabase = fileName;
                     this.OnPropertyChanged(nameof(currentDatabase));
@@ -353,6 +373,29 @@ namespace TaskHandling.ViewModels
             {
                 MessageBox.Show("This database dosen't exist.");
             }
+        }
+
+        private ICommand editTaskCommand;
+        public ICommand EditTaskCommand
+        {
+            get
+            {
+                if (editTaskCommand == null)
+                {
+                    editTaskCommand = new RelayCommand(EditTask);
+
+                }
+                return editTaskCommand;
+            }
+        }
+        public void EditTask(object param)
+        {
+            var EditTask = new Add_TASK();
+            EditTask.actionButton.Content = "Edit";
+            var context = new Add_TaskVM();
+            EditTask.DataContext = context;
+            EditTask.actionButton.Command = editTaskCommand;
+            EditTask.Show();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
