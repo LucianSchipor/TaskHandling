@@ -11,6 +11,7 @@
     <None Remove="Assets\ButtonIcons\DOWN.png" />
     <None Remove="Assets\ButtonIcons\Remove free icons designed by Pixel perfect.png" />
     <None Remove="Assets\ButtonIcons\Search free vector icons designed by Freepik.png" />
+    <None Remove="Assets\ButtonIcons\search.png" />
     <None Remove="Assets\ButtonIcons\Up.png" />
     <None Remove="Assets\ButtonIcons\vecteezy_button-plus-icon-sign-symbol-design_9392103_823.png" />
     <None Remove="Assets\TDLIcons\food" />
@@ -28,6 +29,7 @@
     <Resource Include="Assets\ButtonIcons\DOWN.png" />
     <Resource Include="Assets\ButtonIcons\Remove free icons designed by Pixel perfect.png" />
     <Resource Include="Assets\ButtonIcons\Search free vector icons designed by Freepik.png" />
+    <Resource Include="Assets\ButtonIcons\search.png" />
     <Resource Include="Assets\ButtonIcons\Up.png" />
     <Resource Include="Assets\ButtonIcons\vecteezy_button-plus-icon-sign-symbol-design_9392103_823.png" />
     <Resource Include="Assets\TDLIcons\food" />

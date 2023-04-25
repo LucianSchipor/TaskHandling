@@ -52,6 +52,20 @@ namespace TaskHandling.Services
             second = aux;
         }
 
+        public ObservableCollection<Task> FindTaskInPrincipalTDL(string name)
+        {
+            ObservableCollection<Task> tasks = new ObservableCollection<Task>();
+            foreach(TDL indexTDL in tdl.TdlCollection)
+            {
+                foreach(Task index in indexTDL.TasksCollection)
+                {
+                    if (index.taskName == name)
+                        tasks.Add(index);
+                }
+            }
+            return tasks;
+        }
+
         public void MoveTDL(string mode)
         {
             if (mode == "up")

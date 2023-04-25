@@ -180,7 +180,7 @@ namespace TaskHandling.ViewModels
         public void EditTDL(object param)
         {
             var window = new Edit();
-            window.DataContext = new EditVM(treeViewModel.SelectedItem);
+            window.DataContext = new EditVM(treeViewModel.selectedItem, treeViewModel._tdl);
             window.Show();
 
         }
@@ -322,7 +322,11 @@ namespace TaskHandling.ViewModels
         public void DeleteTDL(object param)
         {
             treeViewModel._tdl.TdlCollection.Remove(treeViewModel.SelectedItem);
+            treeViewModel._tdl.NotifyPropertyChanged(nameof(treeViewModel._tdl));
         }
+
+
+        
 
         public void SaveToFile(object parameter)
         {
@@ -402,6 +406,29 @@ namespace TaskHandling.ViewModels
             EditTask.DataContext = context;
             EditTask.actionButton.Command = editTaskCommand;
             EditTask.Show();
+        }
+
+        private ICommand findTaskCommand;
+        public ICommand FindTaskCommand
+        {
+            get
+            {
+                if (findTaskCommand == null)
+                {
+                    findTaskCommand = new RelayCommand(FindTask);
+
+                }
+                return findTaskCommand;
+            }
+        }
+
+        public void FindTask(object param)
+        {
+            var window = new FindTask();
+            var context = new FindTaskVM(treeViewModel._tdl);
+            window.DataContext = context;
+            window.Show();
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

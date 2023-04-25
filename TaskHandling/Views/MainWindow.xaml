@@ -64,7 +64,7 @@
                             <MenuItem Header="Move Up"/>
                             <MenuItem Header="Move Down"/>
                             <MenuItem Header="Manage Category"/>
-                            <MenuItem Header="Find Task"/>
+                            <MenuItem Header="Find Task" Command="{Binding FindTaskCommand}"/>
                         </MenuItem>
 
                         <MenuItem Header="View" Width = "40">

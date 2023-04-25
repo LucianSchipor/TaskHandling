@@ -14,9 +14,11 @@ namespace TaskHandling.ViewModels
     public class EditVM
     {
         public TDL tdl;
-        public EditVM(TDL tdl)
+        public TDL principalTDL;
+        public EditVM(TDL tdl, TDL tdl2)
         {
             this.tdl = tdl;
+            this.principalTDL = tdl2;
         }
 
         public EditVM()
@@ -29,7 +31,7 @@ namespace TaskHandling.ViewModels
         {
             get
             {
-                if(editNameCommand == null)
+                if (editNameCommand == null)
                 {
                     editNameCommand = new RelayCommand(EditName);
                 }
@@ -46,7 +48,7 @@ namespace TaskHandling.ViewModels
                 this.tdl.Name = dialog.Answer;
             }
             //ii trebuie parinte sau cv
-            tdl.tdlservice.SaveToFile(null);
+            principalTDL.tdlservice.SaveToFile(null);
         }
 
 
@@ -70,7 +72,7 @@ namespace TaskHandling.ViewModels
             {
                 this.tdl.Image = browseDialog.FileName;
             }
-            tdl.tdlservice.SaveToFile(null);
+            principalTDL.tdlservice.SaveToFile(null);
         }
     }
 }
