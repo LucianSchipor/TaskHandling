@@ -15,78 +15,80 @@ namespace TaskHandling.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-    public TDL()
-    {
-        this._name = "New TDL";
-        this._image = "../Assets/TDLIcons/sport";
-        _tdlCollection = new ObservableCollection<TDL>();
-        _tasksColletion = new ObservableCollection<Task>();
-        tdlservice = new TDLService(this);
-    }
-       
-    private string _name;
-    public string Name
-    {
-        get { return _name; }
-        set
+
+        public TDL()
         {
-            if (this._name != value)
+            this._name = "New TDL";
+            this._image = "../Assets/TDLIcons/sport";
+            _tdlCollection = new ObservableCollection<TDL>();
+            _tasksColletion = new ObservableCollection<Task>();
+            this.parent = null;
+            tdlservice = new TDLService(this);
+        }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
             {
-                _name = value;
-                NotifyPropertyChanged("Name");
+                if (this._name != value)
+                {
+                    _name = value;
+                    NotifyPropertyChanged("Name");
+                }
+            }
+        }
+
+        private string _image;
+        public string Image
+        {
+            get { return _image; }
+            set
+            {
+                if (this._image != value)
+                {
+                    _image = value;
+                    NotifyPropertyChanged("Image");
+                }
+            }
+        }
+
+
+        private ObservableCollection<TDL> _tdlCollection;
+        public ObservableCollection<TDL> TdlCollection
+        {
+            get
+            {
+                return _tdlCollection;
+            }
+            set
+            {
+                if (this._tdlCollection != value)
+                {
+
+                    _tdlCollection = value;
+                    NotifyPropertyChanged("TdlCollection");
+                }
+            }
+        }
+
+        private ObservableCollection<Task> _tasksColletion;
+        public ObservableCollection<Task> TasksCollection
+        {
+            get
+            {
+                return _tasksColletion;
+            }
+            set
+            {
+                if (value != _tasksColletion)
+                {
+
+                    _tasksColletion = value;
+                    NotifyPropertyChanged("TasksCollection");
+                }
             }
         }
     }
-
-    private string _image;
-    public string Image
-    {
-        get { return _image; }
-        set
-        {
-            if (this._image != value)
-            {
-                _image = value;
-                NotifyPropertyChanged("Image");
-            }
-        }
-    }
-
-
-    private ObservableCollection<TDL> _tdlCollection;
-    public ObservableCollection<TDL> TdlCollection
-    {
-        get
-        {
-            return _tdlCollection;
-        }
-        set
-        {
-            if (this._tdlCollection != value)
-            {
-
-                _tdlCollection = value;
-                NotifyPropertyChanged("TdlCollection");
-            }
-        }
-    }
-
-    private ObservableCollection<Task> _tasksColletion;
-    public ObservableCollection<Task> TasksCollection
-    {
-        get
-        {
-            return _tasksColletion;
-        }
-        set
-        {
-            if (value != _tasksColletion)
-            {
-
-                _tasksColletion = value;
-                NotifyPropertyChanged("TasksCollection");
-            }
-        }
-    }
-}
 }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using TaskHandling.Commands;
 using TaskHandling.Models;
+using TaskHandling.Services;
 using TaskHandling.Views;
 
 namespace TaskHandling.ViewModels
@@ -14,16 +15,18 @@ namespace TaskHandling.ViewModels
     public class Add_TaskVM : INotifyPropertyChanged
     {
         public TaskVM taskVM { get; set; }
+        private TDL tdl;
         Task newTask;
         ObservableCollection<Task> taskList;
 
-        public Add_TaskVM(ObservableCollection<Task> taskList)
+        public Add_TaskVM(TDL tdl, ObservableCollection<Task>TaskList)
         {
-            selectedDate = DateTime.Now.ToString();
             newTask = new Task();
+            this.tdl = tdl;
             taskVM = new TaskVM(newTask);
-            this.taskList = taskList;
+            this.taskList = TaskList;
         }
+        
         public Add_TaskVM()
         {
 
@@ -118,9 +121,15 @@ namespace TaskHandling.ViewModels
 
         public void CreateTask(object param)
         {
+            selectedDate = DateTime.Now.ToString();
             this.taskList.Add(taskVM.task);
+            this.tdl.tdlservice.SaveToFile(null);
+            //imi salveaza in fisier tdl-ul selectat, dar il inlocuieste
             this.NotifyPropertyChanged(nameof(taskList));
+            
         }
+
+      
 
         public void SetPriority(object param)
         {

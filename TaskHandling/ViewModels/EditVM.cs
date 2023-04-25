@@ -45,6 +45,8 @@ namespace TaskHandling.ViewModels
             {
                 this.tdl.Name = dialog.Answer;
             }
+            //ii trebuie parinte sau cv
+            tdl.tdlservice.SaveToFile(null);
         }
 
 
@@ -68,6 +70,7 @@ namespace TaskHandling.ViewModels
             {
                 this.tdl.Image = browseDialog.FileName;
             }
+            tdl.tdlservice.SaveToFile(null);
         }
     }
 }

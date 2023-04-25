@@ -22,7 +22,7 @@ namespace TaskHandling.Services
         }
         public TDLService()
         {
-            currentFileName = " ";
+            currentFileName = "Unknown";
         }
         public void AddTask(Task task)
         {
@@ -69,9 +69,18 @@ namespace TaskHandling.Services
 
             var fileName = currentFileName;
             XmlSerializer serializer = new XmlSerializer(typeof(TDL));
-            using (FileStream stream = new FileStream(currentFileName, FileMode.Create))
+
+            if (currentFileName != "Unknown")
             {
-                serializer.Serialize(stream, tdl);
+
+                using (FileStream stream = new FileStream(currentFileName, FileMode.Create))
+                {
+                    serializer.Serialize(stream, tdl);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nu ai selectat nicio baza de date.");
             }
         }
     }

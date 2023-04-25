@@ -18,8 +18,8 @@ namespace TaskHandling.ViewModels
 {
     public class TreeViewModel : BaseVM
     {
-
         public Task selectedTask;
+        public TDL ROOT;
         public TreeViewModel()
         {
             _tdl = new TDL();
@@ -29,7 +29,7 @@ namespace TaskHandling.ViewModels
             selectedTask.taskDescription = "Hi brother";
         }
 
-        private TDL selectedItem;
+        public TDL selectedItem;
         public TDL SelectedItem
         {
             get
@@ -57,7 +57,7 @@ namespace TaskHandling.ViewModels
             }
         }
 
-      
+
 
     }
 
@@ -72,7 +72,17 @@ namespace TaskHandling.ViewModels
             treeViewModel = new TreeViewModel();
             tdlService = new TDLService(treeViewModel._tdl);
             ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, treeViewModel._tdl.tdlservice);
-            currentDatabase = "Undefined";
+            currentDatabase = "Unknown";
+        }
+
+        public void SaveAfterAction()
+        {
+
+            XmlSerializer serializer = new XmlSerializer(typeof(TDL));
+            using (FileStream stream = new FileStream(currentDatabase, FileMode.Create))
+            {
+                serializer.Serialize(stream, treeViewModel._tdl);
+            }
         }
 
         public void Add_Root_TDL(object param)
@@ -85,7 +95,6 @@ namespace TaskHandling.ViewModels
         private void selectItem(TDL tdl)
         {
             treeViewModel.SelectedItem = tdl;
-            SaveOnActionsToFIle();
         }
 
         private ICommand selectTaskCommand;
@@ -97,7 +106,7 @@ namespace TaskHandling.ViewModels
                 {
                     selectTaskCommand = new RelayCommandN<Task>(SelectTask);
                 }
-                    return selectTaskCommand;
+                return selectTaskCommand;
             }
         }
 
@@ -185,7 +194,7 @@ namespace TaskHandling.ViewModels
             else
             {
                 var window = new Add_TASK();
-                window.DataContext = new Add_TaskVM(treeViewModel.SelectedItem.TasksCollection);
+                window.DataContext = new Add_TaskVM(treeViewModel._tdl, treeViewModel.selectedItem.TasksCollection);
                 window.Show();
             }
         }
@@ -228,7 +237,7 @@ namespace TaskHandling.ViewModels
             {
                 if (archiveDatabaseCommand == null)
                 {
-                    archiveDatabaseCommand = new RelayCommand(tdlService.SaveToFile);
+                    archiveDatabaseCommand = new RelayCommand(SaveToFile);
                 }
                 return archiveDatabaseCommand;
             }
@@ -267,7 +276,9 @@ namespace TaskHandling.ViewModels
 
                     treeViewModel._tdl = newTDL;
                     treeViewModel._tdl.tdlservice.currentFileName = fileName;
-                    ADD_TDLVM._tdlService = treeViewModel._tdl.tdlservice;
+
+                    ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, treeViewModel._tdl.tdlservice);
+
                     currentDatabase = fileName;
                     treeViewModel.NotifyPropertyChanged(nameof(treeViewModel._tdl));
                     this.OnPropertyChanged(nameof(currentDatabase));
@@ -275,7 +286,7 @@ namespace TaskHandling.ViewModels
             }
             else
             {
-                if (fileName != " ")
+                if (fileName != "Unknown")
                     MessageBox.Show("Database with this name already exist.");
             }
         }
@@ -331,15 +342,7 @@ namespace TaskHandling.ViewModels
             }
         }
 
-        public void SaveOnActionsToFIle()
-        {
 
-            XmlSerializer serializer = new XmlSerializer(typeof(TDL));
-            using (FileStream stream = new FileStream(currentDatabase, FileMode.Create))
-            {
-                serializer.Serialize(stream, treeViewModel._tdl);
-            }
-        }
 
         public void GetTDLFromFile(object param)
         {
@@ -347,31 +350,34 @@ namespace TaskHandling.ViewModels
 
             var fileNameDialog = new InputDialog("Salut");
             fileNameDialog.label.Content = "Choose File Name";
-            var fileName = "TDL.txt";
-
+            var fileName = " ";
             if (fileNameDialog.ShowDialog() == true)
             {
                 fileName = fileNameDialog.Answer;
             }
 
-            if (File.Exists(fileName))
+            if (fileName != " ")
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(TDL));
-                using (FileStream stream = new FileStream(fileName, FileMode.Open))
+
+                if (File.Exists(fileName))
                 {
-                    newTDL = (TDL)serializer.Deserialize(stream);
-                    treeViewModel._tdl = newTDL;
-                    treeViewModel._tdl.tdlservice = new TDLService(newTDL);
-                    treeViewModel._tdl.tdlservice.currentFileName = fileName;
-                    ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, treeViewModel._tdl.tdlservice);
-                    treeViewModel.NotifyPropertyChanged(nameof(treeViewModel._tdl));
-                    currentDatabase = fileName;
-                    this.OnPropertyChanged(nameof(currentDatabase));
+                    XmlSerializer serializer = new XmlSerializer(typeof(TDL));
+                    using (FileStream stream = new FileStream(fileName, FileMode.Open))
+                    {
+                        newTDL = (TDL)serializer.Deserialize(stream);
+                        treeViewModel._tdl = newTDL;
+                        treeViewModel._tdl.tdlservice = new TDLService(newTDL);
+                        treeViewModel._tdl.tdlservice.currentFileName = fileName;
+                        ADD_TDLVM = new Add_TDLVM(treeViewModel._tdl, treeViewModel._tdl.tdlservice);
+                        treeViewModel.NotifyPropertyChanged(nameof(treeViewModel._tdl));
+                        currentDatabase = fileName;
+                        this.OnPropertyChanged(nameof(currentDatabase));
+                    }
                 }
-            }
-            else
-            {
-                MessageBox.Show("This database dosen't exist.");
+                else
+                {
+                    MessageBox.Show("This database dosen't exist.");
+                }
             }
         }
 
@@ -392,7 +398,7 @@ namespace TaskHandling.ViewModels
         {
             var EditTask = new Add_TASK();
             EditTask.actionButton.Content = "Edit";
-            var context = new Add_TaskVM();
+            var context = new Add_TaskVM(treeViewModel.SelectedItem, treeViewModel.selectedItem.TasksCollection);
             EditTask.DataContext = context;
             EditTask.actionButton.Command = editTaskCommand;
             EditTask.Show();

@@ -13,13 +13,16 @@ using System.ComponentModel;
 using TaskHandling.Views;
 using TaskHandling.Services;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace TaskHandling.ViewModels
 {
     public class Add_TDLVM : INotifyPropertyChanged
     {
         public TDLService _tdlService;
-        public TDL _tdl;
+        public TDL selectedItem;
+        TDL parent;
 
         private string imgPath;
         public string IMGPath
@@ -47,23 +50,10 @@ namespace TaskHandling.ViewModels
                 NotifyPropertyChanged(nameof(tdlName));
             }
         }
-        private TDL tdlparent;
-        public TDL TDLParent
-        {
-            get
-            {
-                return tdlparent;
-            }
-            set
-            {
-                tdlparent = value;
-                NotifyPropertyChanged(nameof(tdlparent));
-            }
-        }
 
-        public Add_TDLVM(TDL tdlList, TDLService tDLService)
+        public Add_TDLVM(TDL selectedItem, TDLService tDLService)
         {
-            _tdl = tdlList;
+            this.selectedItem = selectedItem;
             _tdlService = tDLService;
         }
 
@@ -96,7 +86,8 @@ namespace TaskHandling.ViewModels
             TDL newTDL = new TDL();
             newTDL.Name = TDLName;
             newTDL.Image = IMGPath;
-            
+            newTDL.tdlservice.currentFileName = _tdlService.currentFileName;
+
             if (newTDL.Name != null && newTDL.Image != null)
             {
                 _tdlService.AddTDL(newTDL);
